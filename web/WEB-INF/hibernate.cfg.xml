@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <mapping class="spd.domain.User" />
+        <mapping class="spd.domain.Test" />
+        <mapping class="spd.domain.Question" />
+        <mapping class="spd.domain.CurrTest" />
+        <mapping class="spd.domain.Answers" />
+        <mapping class="spd.domain.ResultTest" />
+    </session-factory>
+</hibernate-configuration>

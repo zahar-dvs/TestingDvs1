@@ -1,0 +1,97 @@
+﻿<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+    	xmlns:aop="http://www.springframework.org/schema/aop"
+    	xmlns:tx="http://www.springframework.org/schema/tx"
+   		xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.Іspringframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+<bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+    <property name="configLocation">
+        <value>/WEB-INF/hibernate.cfg.xml</value>
+    </property>
+    <property name="configurationClass">
+        <value>org.hibernate.cfg.AnnotationConfiguration</value>
+    </property>
+    <property name="hibernateProperties">
+        <props>
+            <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+            <prop key="hibernate.show_sql">true</prop>
+        </props>
+    </property>
+    <!--<property name="hibernateProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
+                <!--<prop key="hibernate.format_sql">true</prop>-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--<prop key="hibernate.defaultAutoCommit">true</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    </bean>
+
+           <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+        <!--<bean name="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">-->
+        <!--<property name="sessionFactory" ref="sessionFactory" />-->
+    <!--</bean>-->
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url"
+                  value="jdbc:mysql://localhost/spd" />
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+    </bean>
+
+
+    <bean id="userDao" class="spd.dao.UserDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="userService" class="spd.services.UserService">
+        <property name="userDao" ref="userDao" />
+        <property name="instance" ref="userService"/>
+    </bean>
+
+    <bean id="testDao" class="spd.dao.TestDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="testService" class="spd.services.TestService">
+        <property name="testDao" ref="testDao" />
+        <property name="instance" ref="testService"/>
+    </bean>
+
+    <bean id="questionsDao" class="spd.dao.QuestionsDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="questionsService" class="spd.services.QuestionsService">
+        <property name="questionsDao" ref="questionsDao" />
+        <property name="instance" ref="questionsService"/>
+    </bean>
+
+    <bean id="answersDao" class="spd.dao.AnswersDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="answersService" class="spd.services.AnswersService">
+        <property name="answersDao" ref="answersDao" />
+        <property name="instance" ref="answersService"/>
+    </bean>
+
+
+</beans>
